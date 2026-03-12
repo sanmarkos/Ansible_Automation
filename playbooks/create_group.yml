@@ -1,0 +1,22 @@
+--- 
+- name: Group Creation
+  hosts: all
+  tasks: 
+    - name: creating new group
+      win_group:
+        name: develpers
+        state: present
+    - name: adding the user to group
+      win_group_membership:
+        name: develpers
+        members:
+          - "MARKOS\\ansible"
+          - "MARKOS\\alex"
+          - "MARKOS\\sutharsan"
+        state: present
+    - name: removing the user from group
+      win_group_membership:
+        name: develpers
+        members:
+          - "MARKOS\\sutharsan"
+        state: absent

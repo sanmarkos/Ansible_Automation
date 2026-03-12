@@ -1,0 +1,22 @@
+---
+- name: test_script
+  hosts: all
+  tasks:
+    - name: Create directory
+      win_file: 
+        path: "C:\\test_dir"
+        state: directory
+    - name: File creation
+      win_copy:
+        content: "This is from ansible.
+          I am sutharsan"
+        dest: "c:\\test_dir\\file.txt"
+    - name: File delection
+      win_file:
+        path: "c:\\test_dir\\file.txt"
+        state: absent 
+    - name: Direc deletion
+      win_file:
+        path: "C:\\test_dir"
+        state: absent
+

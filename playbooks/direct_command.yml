@@ -1,0 +1,21 @@
+---
+- name: Giving the direct command
+  hosts: all
+  tasks:
+    - name: check the cpu uptime
+      win_shell: |
+        (Get-CimInstance Win32_OperatingSystem).LastBootUpTime
+      register: uptime
+    - name: Display result
+      debug:
+        msg: "The System has been running since: {{ uptime.stdout }}"
+    - name: Get network adaptor information
+      win_shell: |
+        Get-NetAdapter | Select-Object InterfaceAlias, Name, Status, MacAddress, IPAddress
+      win_shell: |
+        ipconfig /all
+      register: adapter
+    - name: Display result
+      debug:
+        msg: "The Network Adapter Info : {{ adapter.stdout_lines }}"
+

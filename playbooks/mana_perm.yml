@@ -1,0 +1,30 @@
+---
+- name: Managing Files and Directory Permission
+  hosts: all
+  tasks: 
+    - name: directory creation
+      win_file:
+        path: "C:\\secret"
+        state: directory
+    - name: change ownership
+      win_owner:
+        path: "C:\\secret"
+        user: "MARKOS\\ansible"
+    - name: add permission 
+      win_acl:
+        path: "C:\\secret"
+        user: "MARKOS\\ansible"
+        rights: Read
+        type: allow
+        state: present
+    - name: remove permission to user
+      win_acl:
+        path: "{{ folder_path }}"
+        user: "{{ target_user }}"
+        rights: "{{ rights_to_remove }}"
+        type: allow
+        state: absent
+    - name: set inheritance
+      win_acl_inheritance:
+        path: "C:\\secret"
+        state: absent

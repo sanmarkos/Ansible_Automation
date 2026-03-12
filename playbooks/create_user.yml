@@ -1,0 +1,13 @@
+---
+- name: User creation
+  hosts: all
+  tasks:
+    - name: creating user
+      win_user:
+        name: alex
+        password: Qwertyuiop@2025
+        groups: 
+          - Administrators
+        groups_action: add
+        state: present
+        

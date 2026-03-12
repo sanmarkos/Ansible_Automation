@@ -1,0 +1,43 @@
+---
+- name: Scheduling task
+  hosts: all
+  tasks:
+    - name: scheduling simple task
+      win_scheduled_task:
+        name: start notepad
+        actions:
+          - path: "C:\\Windows\\System32\\notepad.exe"
+        triggers:
+          - type: time
+            start_boundary: "2025-10-04T03:04:00"
+            repetition:
+              interval: PT30M
+              duration: PT2H
+        state: present
+    - name: Popup message
+      win_scheduled_task:
+        name: Message
+        actions:
+          - path: "powershell.exe"
+            arguments: "-ExecutionPolicy Bypass -File C:\\Users\\ansible\\Documents\\message2.ps1"
+        triggers:
+          - type: time
+            start_boundary: "2025-10-04T03:10:00"
+            repetition:
+              interval: PT10M
+              duration: PT4H
+        state: present
+    - name: Task_Scheduled_Notepad_status
+      win_scheduled_task_stat:
+        name: start notepad
+      register: result
+    - name: displaying result
+      debug:
+        msg: "{{ result }}"
+    - name: Task_Scheduled_PopupMessage_status
+      win_scheduled_task_stat:
+        name: Message
+      register: result2
+    - name: Displaying Popup MEssage result
+      debug:
+        msg: "{{ result2 }}"

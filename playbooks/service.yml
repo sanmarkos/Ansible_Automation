@@ -1,0 +1,23 @@
+---
+- name: service maangement
+  hosts: all
+  tasks:
+    - name: gather service info
+      ansible.windows.win_service_info:
+        name: "Spooler"
+      register: serviceinfo
+    - name: Display information
+      debug:
+        var: serviceinfo
+    - name: Stop service
+      win_service:
+        name: "Spooler"
+        state: stopped
+      when: serviceinfo.services[0].state == 'started'
+    - name: again check the status
+      ansible.windows.win_service_info:
+        name: "Spooler"
+      register: serviceinfo2
+    - name: display information
+      debug:
+        var: serviceinfo2

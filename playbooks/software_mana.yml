@@ -1,0 +1,29 @@
+---
+- name: Software Management
+  hosts: all
+  tasks:
+    - name: Ensure having chocolatey on the hosts
+      win_chocolatey:
+        name: chocolatey
+        state: present
+    - name: install notepad ++
+      win_chocolatey:
+        name: notepadplusplus
+        state: present
+    - name: update git, first ensure having git
+      win_chocolatey:
+        name: git
+        state: present
+      win_chocolatey:
+        name: git
+        state: latest
+    - name: install windows features
+      win_feature:
+        name: SNMP-Service
+        state: absent
+    - name: remove notepad++
+      win_chocolatey:
+        name: git
+        state: absent
+
+
