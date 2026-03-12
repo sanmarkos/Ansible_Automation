@@ -1,4 +1,4 @@
-# Ansible Windows Automation Homelab
+# Ansible Automation
 
 ## Project Overview
 
