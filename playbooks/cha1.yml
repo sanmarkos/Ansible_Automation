@@ -1,0 +1,46 @@
+---
+- name: Challenge1
+  hosts: all
+  tasks: 
+    - name: creating new groups
+      win_group:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - HR
+        - admin
+    - name: user creating 
+      win_user:
+        name: "{{ item.name }}"
+        password: "{{ item.password}}"
+        state: present
+      loop:
+        - name: dev1
+          password: "Developer@1"
+        - name: dev2
+          password: "Developer@2"
+        - name: admin1
+          password: "Administrator@2025"
+    - name: add dev2 to group
+      win_group_membership:
+        name: HR 
+        members:
+          - "MARKOS\\dev2"
+    - name: create a directory
+      win_file:
+        path: "C:\\Assignment"
+        state: Directory
+    - name: add read and write permission
+      win_acl:
+        path: "C:\\Assignment"
+        user: HR
+        rights: Read, Write
+        type: allow
+        state: present
+    - name: give full control to the user
+      win_acl:
+        path: "C:\\Assignment"
+        user: "MARKOS\\admin1"
+        rights: FullControl
+        type: allow
+        state: present
